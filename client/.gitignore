@@ -1,0 +1,23 @@
+# Dépendances (toujours régénérées par npm install)
+node_modules/
+**/node_modules/
+
+# Fichiers d'environnement avec de vraies valeurs
+.env
+.env.local
+.env.*.local
+
+# Mais on garde le modèle vide pour les collègues
+!.env.example
+
+# Dossiers de build (régénérés lors du déploiement)
+dist/
+build/
+
+# Fichiers d'IDE
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store
