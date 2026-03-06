@@ -12,13 +12,28 @@ app.use(express.json());
 const server = http.createServer(app);
 
 // ─── Socket.io ──────────────────────────────
-// CORS configuré pour PC (localhost) + réseau local (IP du PC)
+// CORS: autoriser localhost, Vercel et CLIENT_URL (si defini)
+const allowedOrigins = new Set(
+    (process.env.CLIENT_URL || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+);
+
 const io = new Server(server, {
     cors: {
-        origin: "*",  // accepte toutes les origines
+        origin: (origin, callback) => {
+            if (!origin) return callback(null, true);
+            if (origin.includes("localhost")) return callback(null, true);
+            if (origin.endsWith(".vercel.app")) return callback(null, true);
+            if (allowedOrigins.has(origin)) return callback(null, true);
+            return callback(new Error(`Origin non autorisee: ${origin}`));
+        },
         methods: ["GET", "POST"],
     },
 });
+
+
 
 // ─── Rooms prédéfinies ───────────────────────
 const rooms = {
@@ -128,6 +143,6 @@ function getLocalIP() {
 }
 
 // ─── Démarrage serveur ────────────────────
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const localIP = getLocalIP();
 server.listen(PORT, () => console.log(`🚀 Serveur sur http://${localIP}:${PORT}`));

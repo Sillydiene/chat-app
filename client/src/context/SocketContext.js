@@ -4,23 +4,31 @@ import io from "socket.io-client";
 
 const SocketContext = createContext(null);
 
-// 🔹 URLs possibles (DEV)
-const LOCAL_SOCKET_URLS = [
-    "http://localhost:5000",      // PC
-    "http://192.168.56.1:5000",   // téléphone sur le même Wi-Fi
-];
+// 🔑 LA CLÉ DU CORRECTIF :
+// Le socket est créé ICI, au niveau du MODULE, complètement en dehors de React.
+// Ainsi React StrictMode (qui monte/démonte les composants 2x) ne peut PAS le détruire.
+// Chaque onglet du navigateur charge son propre module → chaque onglet a son propre socket.
 
-// 🔹 URL FINALE (PROD > DEV)
-const SOCKET_URL =
-    process.env.REACT_APP_SERVER_URL || LOCAL_SOCKET_URLS[0];
+// URL serveur en priorite via variable d'environnement (Vercel/React).
+// Si la variable est absente/invalide:
+// - localhost en developpement local
+// - URL Render en fallback de production
+const LOCAL_SOCKET_URL = "http://localhost:5000";
+const RENDER_FALLBACK_URL = "https://chat-app-wirv.onrender.com";
+const envUrl = (process.env.REACT_APP_SERVER_URL || "").trim();
+const isPlaceholderUrl = envUrl.includes("votre-app.railway.app");
+const isLocalHost =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
-// 🔑 Socket créé AU NIVEAU DU MODULE (bonne pratique ✔)
-const socket = io(SOCKET_URL, {
-    autoConnect: false,
-});
+const DEFAULT_SOCKET_URL = !envUrl || isPlaceholderUrl
+    ? (isLocalHost ? LOCAL_SOCKET_URL : RENDER_FALLBACK_URL)
+    : envUrl;
+
+const socket = io(DEFAULT_SOCKET_URL, { autoConnect: false });
 
 // ────────────────
-// PROVIDER
+// PROVIDER REACT
 // ────────────────
 export function SocketProvider({ children }) {
     return (
@@ -31,7 +39,7 @@ export function SocketProvider({ children }) {
 }
 
 // ────────────────
-// HOOK
+// HOOK UTILITAIRE
 // ────────────────
 export function useSocket() {
     return useContext(SocketContext);
