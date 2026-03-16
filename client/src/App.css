@@ -7,10 +7,10 @@
     --wa-green: #25D366;
     --wa-dark-green: #128C7E;
     --wa-teal: #075E54;
-    --wa-light-green: #DCF8C6;  /* Bulle "moi" */
-    --wa-white: #FFFFFF;        /* Bulle "autres" */
-    --bg-chat: #E5DDD5;         /* Fond du chat */
-    --bg-sidebar: #111B21;      /* Sidebar sombre */
+    --wa-light-green: #DCF8C6;
+    --wa-white: #FFFFFF;
+    --bg-chat: #E5DDD5;
+    --bg-sidebar: #111B21;
     --text-dark: #111B21;
     --text-light: #667781;
     --border: #E9EDEF;
@@ -25,7 +25,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
     background: var(--bg-chat);
 }
 
@@ -54,7 +54,7 @@ body {
     padding: 40px 36px;
     width: 100%;
     max-width: 380px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
 
@@ -138,7 +138,7 @@ body {
     width: 100%;
     height: 100vh;
     max-width: 1100px;
-    box-shadow: 0 0 60px rgba(0,0,0,0.4);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
     position: relative;
     overflow: hidden;
 }
@@ -148,7 +148,6 @@ body {
     display: flex;
     flex-direction: column;
     background: var(--bg-chat);
-    /* Fond avec le motif de fond WhatsApp simulé */
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23128C7E' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -214,6 +213,23 @@ body {
     color: #aebac1;
 }
 
+/* Bouton quitter */
+.leaveBtn {
+    margin-left: auto;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.leaveBtn:hover {
+    background-color: #c0392b;
+}
+
 /* ============================================================
    ZONE DES MESSAGES
    ============================================================ */
@@ -226,15 +242,20 @@ body {
     gap: 4px;
 }
 
-/* Scrollbar discrète */
-.messagesArea::-webkit-scrollbar { width: 6px; }
-.messagesArea::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+.messagesArea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messagesArea::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
 
 .emptyChat {
     margin: auto;
     text-align: center;
     color: #92a5ab;
-    background: rgba(255,255,255,0.7);
+    background: rgba(255, 255, 255, 0.7);
     padding: 16px 24px;
     border-radius: 12px;
     font-size: 14px;
@@ -250,23 +271,27 @@ body {
     border-radius: 8px;
     position: relative;
     word-break: break-word;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Mes messages → droite, fond vert clair */
 .message.own {
     align-self: flex-end;
     background: var(--wa-light-green);
     border-bottom-right-radius: 2px;
 }
 
-/* Messages des autres → gauche, fond blanc */
 .message.other {
     align-self: flex-start;
     background: var(--wa-white);
@@ -286,18 +311,30 @@ body {
     line-height: 1.4;
 }
 
+/* Bloc heure + lu */
+.messageMeta {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
 .messageTime {
     font-size: 11px;
     color: var(--text-light);
-    float: right;
-    margin-left: 8px;
-    margin-top: 2px;
 }
 
-/* Message système (join/leave) */
+.readIndicator {
+    color: #2d9cdb;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Message système */
 .systemMessage {
     align-self: center;
-    background: rgba(255,255,255,0.75);
+    background: rgba(255, 255, 255, 0.75);
     border-radius: 8px;
     padding: 6px 14px;
     font-size: 12px;
@@ -362,7 +399,7 @@ body {
 .sidebarOverlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
     z-index: 10;
 }
 
@@ -377,14 +414,16 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Sur mobile, la sidebar se superpose */
 @media (max-width: 700px) {
     .sidebar {
         position: absolute;
-        left: 0; top: 0; bottom: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
         z-index: 20;
         transform: translateX(-100%);
     }
+
     .sidebar.open {
         transform: translateX(0);
     }
@@ -411,11 +450,13 @@ body {
     font-size: 16px;
     cursor: pointer;
     padding: 4px;
-    display: none; /* visible seulement sur mobile */
+    display: none;
 }
 
 @media (max-width: 700px) {
-    .closeSidebar { display: block; }
+    .closeSidebar {
+        display: block;
+    }
 }
 
 .sidebarSection {
@@ -474,9 +515,8 @@ body {
 }
 
 /* ============================================================
-   LISTE DES ROOMS — Ajouts CSS
+   LISTE DES ROOMS
    ============================================================ */
-
 .roomsSection {
     margin-top: 4px;
     margin-bottom: 16px;
@@ -507,6 +547,7 @@ body {
     cursor: pointer;
     transition: all 0.2s;
 }
+
 .createRoomToggle:hover {
     background: var(--wa-dark-green);
     color: white;
@@ -517,6 +558,7 @@ body {
     gap: 8px;
     margin-bottom: 10px;
 }
+
 .createRoomForm input {
     flex: 1;
     padding: 8px 12px;
@@ -525,9 +567,11 @@ body {
     font-size: 14px;
     outline: none;
 }
+
 .createRoomForm input:focus {
     border-color: var(--wa-dark-green);
 }
+
 .createRoomForm button {
     padding: 8px 14px;
     background: var(--wa-dark-green);
@@ -537,12 +581,12 @@ body {
     font-size: 13px;
     cursor: pointer;
 }
+
 .createRoomForm button:disabled {
     background: #ccc;
     cursor: not-allowed;
 }
 
-/* Grille des rooms */
 .roomsGrid {
     display: flex;
     flex-direction: column;
@@ -564,10 +608,12 @@ body {
     transition: all 0.15s;
     text-align: left;
 }
+
 .roomCard:hover {
     border-color: var(--wa-dark-green);
     background: #f0faf6;
 }
+
 .roomCard.selected {
     border-color: var(--wa-dark-green);
     background: #e6f7f1;
